@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require("fs");
 
 server = http.createServer((req, res) => {
   const { url, POST } = req;
@@ -32,6 +33,10 @@ server = http.createServer((req, res) => {
     req.on("end", () => {
       body = Buffer.concat(body).toString();
       console.log("Username = ", body.split("=")[1]);
+      fs.writeFile("message.txt", body.split("=")[1], err => {
+        if (err) throw err;
+        console.log("The file has been saved!");
+      });
     });
     res.statusCode = 302;
     res.setHeader("Location", "/");
@@ -49,4 +54,4 @@ server = http.createServer((req, res) => {
   console.log(url, POST);
 });
 
-server.listen(3000);
+server.listen(8080);

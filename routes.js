@@ -1,7 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 
-server = http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
   const { url, POST } = req;
   if (url === "/") {
     res.setHeader("Content-Type", "text/html");
@@ -32,8 +32,9 @@ server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       body = Buffer.concat(body).toString();
+      let someThing = ["samco", "srm", "tcs"];
       console.log("Username = ", body.split("=")[1]);
-      fs.writeFile("message.txt", body.split("=")[1], err => {
+      fs.writeFile("message.txt", body.split("=")[0], err => {
         if (err) throw err;
         console.log("The file has been saved!");
       });
@@ -54,4 +55,6 @@ server = http.createServer((req, res) => {
   console.log(url, POST);
 });
 
-server.listen(8080);
+module.exports = server;
+
+// server.listen(8080);
